@@ -58,13 +58,18 @@ var app = new Vue({
       this.notes[note].details[detail].done = !this.notes[note].details[detail].done
     },
     editNote(index) {
+      this.note.title = this.notes[index].title
+      this.note.text = this.notes[index].text
+      this.note.tag = this.notes[index].tag
+      this.details = this.notes[index].details
 
+      this.removeNote(index)
     },
     addDetail(index){
       this.details.push({ text: '', done: false });
     },
     removeDetail(index){
-      this.details.splice(index, 1);
+      this.$delete(this.details, index);
     }
   },
   mounted() {
