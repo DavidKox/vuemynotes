@@ -43,16 +43,16 @@
                 </div>
 
                 <!-- To-Do's -->
-                <div class="form-group" v-for="(detail, k) in details" :key="k">
+                <div class="form-group" v-for="(detail, i) in details" :key="i">
                     <div class="input-group">
                         <input type="text" class="form-control" v-model="detail.text">
                         <div class="input-group-append">
                             <span class="input-group-text"
-                                  @click="removeDetail(k)" v-show="k || ( !k && details.length > 1)">
+                                  @click="removeDetail(i)" v-show="i || ( !i && details.length > 1)">
                                 <i class="icon-minus"></i>
                             </span>
                             <span class="input-group-text"
-                                  @click="addDetail(k)" v-show="k == details.length-1">
+                                  @click="addDetail(i)" v-show="i == details.length-1">
                                 <i class="icon-plus"></i>
                             </span>
                         </div>
@@ -106,13 +106,13 @@
 
             <div class="col-12 col-md-8 order-md-1">
                 <legend>Notes</legend>
-                <div v-for="(note, index) in notes">
+                <div v-for="(note, i) in notes">
                     <div class="row note" v-bind:class="[note.tag, {done : note.done}]">
                         <div class="col-12 note-heading">
                             <h2>{{note.title}}</h2>
                         </div>
                         <div class="col-9 note-content">
-                            <div v-for="(detail, key) in note.details" class="note-todo" @click="setDetailDone(index, key)" v-bind:class="[{done : note.details[key].done}]">
+                            <div v-for="(detail, j) in note.details" class="note-todo" @click="setDetailDone(i, j)" v-bind:class="[{done : note.details[j].done}]">
                                 <p>{{detail.text}}</p>
                             </div>
                             <div v-if="note.text != ''">
@@ -122,13 +122,13 @@
                             </div>
                         </div>
                         <div class="col-3 justify-content-end text-right">
-                            <span class="btn btn-sm btn-success" @click="setDone(index)">
+                            <span class="btn btn-sm btn-success" @click="setDone(i)">
                                 <i class="icon-like"></i>
                             </span>
-                            <span class="btn btn-sm btn-primary" @click="editNote(index)">
+                            <span class="btn btn-sm btn-primary" @click="editNote(i)">
                                 <i class="icon-pen"></i>
                             </span>
-                            <span class="btn btn-sm btn-danger" @click="removeNote(index)">
+                            <span class="btn btn-sm btn-danger" @click="removeNote(i)">
                                 <i class="icon-trash"></i>
                             </span>
                         </div>

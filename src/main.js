@@ -1,88 +1,91 @@
 var app = new Vue({
-  el: '#app',
-  data: {
-    note: {
-      title: '',
-      details: [{
-        text: '',
-        done: false
-      }],
-      text: '',
-      date: '',
-      tag: '',
-      done: false,
+    el: '#app',
+    data: {
+        note: {
+            title: '',
+            details: [{
+                text: '',
+                done: false
+            }],
+            text: '',
+            date: '',
+            tag: '',
+            done: false,
+        },
+        notes: [{}],
+        details: [{
+            text: '',
+            done: false
+        }]
     },
-    notes: [{}],
-    details: [{
-      text: '',
-      done: false
-    }]
-  },
-  methods: {
-    addNote(e) {
-      let {
-        title, text, tag
-      } = this.note
+    methods: {
+        addNote(e) {
+            let {
+                title, text, tag
+            } = this.note
 
-      this.note.details = this.details
+            this.note.details = this.details
+            let details = this.note.details
 
-      let details = this.note.details
+            this.notes.push({
+                title,
+                details,
+                text,
+                date: new Date(Date.now()).toLocaleString(),
+                tag,
+                done: false,
+            })
 
-      this.notes.push({
-        title,
-        details,
-        text,
-        date: new Date(Date.now()).toLocaleString(),
-        tag,
-        done: false,
-      })
+            // reset form after submit
+            this.note.title = ''
+            this.note.text = ''
+            this.note.tag = ''
+            this.details = [{
+                text: '',
+                done: false
+            }]
 
-      // Reset form after submit
-      this.note.title = ''
-      this.details = [{
-        text: '',
-        done: false
-      }]
-      this.note.text = ''
-      this.note.tag = ''
+            e.preventDefault()
+        },
+        removeNote(i) {
+            this.$delete(this.notes, i)
+        },
+        setDone(i) {
+            // toggle true/false
+            this.notes[i].done = !this.notes[i].done
+        },
+        setDetailDone(note, detail) {
+            // toggle true/false
+            this.notes[note].details[detail].done = !this.notes[note].details[detail].done
+        },
+        editNote(i) {
+            // set the form with the current values
+            this.note.title = this.notes[i].title
+            this.note.text = this.notes[i].text
+            this.note.tag = this.notes[i].tag
+            this.details = this.notes[i].details
 
-      e.preventDefault()
+            // delete note to avoid duplicates
+            this.removeNote(i)
+        },
+        addDetail(i) {
+            this.details.push({text: '', done: false});
+        },
+        removeDetail(i) {
+            this.$delete(this.details, i);
+        }
     },
-    removeNote(index) {
-      this.$delete(this.notes, index)
+    mounted() {
+        if (localStorage.getItem('notes')) this.notes = JSON.parse(localStorage.getItem('notes'));
     },
-    setDone(index) {
-      this.notes[index].done = !this.notes[index].done
-    },
-    setDetailDone(note, detail) {
-      this.notes[note].details[detail].done = !this.notes[note].details[detail].done
-    },
-    editNote(index) {
-      this.note.title = this.notes[index].title
-      this.note.text = this.notes[index].text
-      this.note.tag = this.notes[index].tag
-      this.details = this.notes[index].details
-
-      this.removeNote(index)
-    },
-    addDetail(index){
-      this.details.push({ text: '', done: false });
-    },
-    removeDetail(index){
-      this.$delete(this.details, index);
+    watch: {
+        notes: {
+            handler() {
+                localStorage.setItem('notes', JSON.stringify(this.notes));
+            },
+            deep: true,
+        },
     }
-  },
-  mounted() {
-    if (localStorage.getItem('notes')) this.notes = JSON.parse(localStorage.getItem('notes'));
-  },
-  watch: {
-    notes: {
-      handler() {
-        localStorage.setItem('notes', JSON.stringify(this.notes));
-      },
-      deep: true,
-    },
-  }
 });
 
 
