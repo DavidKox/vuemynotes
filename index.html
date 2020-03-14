@@ -7,8 +7,8 @@
     <title>Vue my Notes</title>
 
     <!-- css -->
-    <link rel='stylesheet' href='https://unpkg.com/bootstrap@4.4.1/dist/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='https://unpkg.com/bootstrap-vue@2.6.1/dist/bootstrap-vue.min.css'>
+    <link type="text/css" rel='stylesheet' href='https://unpkg.com/bootstrap@4.4.1/dist/css/bootstrap.min.css'>
+    <link type="text/css" rel='stylesheet' href='https://unpkg.com/bootstrap-vue@2.6.1/dist/bootstrap-vue.min.css'>
     <link rel='stylesheet' href='src/notes-app.css'>
 
     <!-- js -->
@@ -16,7 +16,131 @@
     <script src='https://unpkg.com/bootstrap-vue@2.6.1/dist/bootstrap-vue.min.js'></script>
 </head>
 <body>
-<div id="app"></div>
+<div id="app">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1>
+                    <div class="vue-logo">
+                        <svg version="1.1" viewBox="0 0 261.76 226.69" xmlns="http://www.w3.org/2000/svg"><g
+                                transform="matrix(1.3333 0 0 -1.3333 -76.311 313.34)"><g
+                                transform="translate(178.06 235.01)"><path
+                                d="m0 0-22.669-39.264-22.669 39.264h-75.491l98.16-170.02 98.16 170.02z" fill="#41b883"/></g><g
+                                transform="translate(178.06 235.01)"><path
+                                d="m0 0-22.669-39.264-22.669 39.264h-36.227l58.896-102.01 58.896 102.01z"
+                                fill="#34495e"/></g></g></svg>
+                    </div>ue my notes
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <form class="col-12 col-md-4 order-md-2">
+                <legend>Add Note</legend>
+                <!-- Title -->
+                <div class="form-group">
+                    <input type="text" class="form-control" id="title" placeholder="Title" v-model="note.title">
+                </div>
+
+                <!-- To-Do's -->
+                <div class="form-group" v-for="(detail, k) in details" :key="k">
+                    <div class="input-group">
+                        <input type="text" class="form-control" v-model="detail.text">
+                        <div class="input-group-append">
+                            <span class="input-group-text"
+                                  @click="removeDetail(k)" v-show="k || ( !k && details.length > 1)">
+                                <i class="icon-minus"></i>
+                            </span>
+                            <span class="input-group-text"
+                                  @click="addDetail(k)" v-show="k == details.length-1">
+                                <i class="icon-plus"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text -->
+                <div class="form-group">
+                    <textarea class="form-control" id="text" rows="3" placeholder="Text" v-model="note.text"></textarea>
+                </div>
+
+                <!-- Tag -->
+                <div class="form-group">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success">
+                            <input type="radio" v-model="note.tag" value="success" id="tag-success">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </label>
+
+                        <label class="btn btn-primary">
+                            <input type="radio" v-model="note.tag" value="primary" id="tag-primary">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </label>
+
+                        <label class="btn btn-info">
+                            <input type="radio" v-model="note.tag" value="info" id="tag-info">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </label>
+
+                        <label class="btn btn-default">
+                            <input type="radio" v-model="note.tag" value="default" id="tag-default">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </label>
+
+                        <label class="btn btn-warning">
+                            <input type="radio" v-model="note.tag" value="warning" id="tag-warning">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </label>
+
+                        <label class="btn btn-danger">
+                            <input type="radio" v-model="note.tag" value="danger" id="tag-danger">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Save -->
+                <button type="submit" class="btn btn-primary" @click="addNote">Save</button>
+            </form>
+
+
+            <div class="col-12 col-md-8 order-md-1">
+                <legend>Notes</legend>
+                <div v-for="(note, index) in notes">
+                    <div class="row note" v-bind:class="[note.tag, {done : note.done}]">
+                        <div class="col-12 note-heading">
+                            <h2>{{note.title}}</h2>
+                        </div>
+                        <div class="col-9 note-content">
+                            <div v-for="(detail, key) in note.details" class="note-todo" @click="setDetailDone(index, key)" v-bind:class="[{done : note.details[key].done}]">
+                                <p>{{detail.text}}</p>
+                            </div>
+                            <div v-if="note.text != ''">
+                                <hr>
+                                <h3>Additional text:</h3>
+                                <p>{{note.text}}</p>
+                            </div>
+                        </div>
+                        <div class="col-3 justify-content-end text-right">
+                            <span class="btn btn-sm btn-success" @click="setDone(index)">
+                                <i class="icon-like"></i>
+                            </span>
+                            <span class="btn btn-sm btn-primary" @click="removeNote(index)">
+                                <i class="icon-pen"></i>
+                            </span>
+                            <span class="btn btn-sm btn-danger" @click="removeNote(index)">
+                                <i class="icon-trash"></i>
+                            </span>
+                        </div>
+                        <div class="col-12 note-footer">
+                            <i>{{note.date}}</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="src/main.js"></script>
 </body>
 </html>
