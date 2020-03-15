@@ -68,33 +68,27 @@
                 <div class="form-group">
                     <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-success">
-                            <input type="radio" v-model="note.tag" value="success" id="tag-success">
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <input type="radio" v-model="note.tag" value="success">
                         </label>
 
                         <label class="btn btn-primary">
-                            <input type="radio" v-model="note.tag" value="primary" id="tag-primary">
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <input type="radio" v-model="note.tag" value="primary">
                         </label>
 
                         <label class="btn btn-info">
-                            <input type="radio" v-model="note.tag" value="info" id="tag-info">
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <input type="radio" v-model="note.tag" value="info">
                         </label>
 
                         <label class="btn btn-default">
-                            <input type="radio" v-model="note.tag" value="default" id="tag-default">
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <input type="radio" v-model="note.tag" value="default">
                         </label>
 
                         <label class="btn btn-warning">
-                            <input type="radio" v-model="note.tag" value="warning" id="tag-warning">
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <input type="radio" v-model="note.tag" value="warning">
                         </label>
 
                         <label class="btn btn-danger">
-                            <input type="radio" v-model="note.tag" value="danger" id="tag-danger">
-                            <span class="glyphicon glyphicon-ok"></span>
+                            <input type="radio" v-model="note.tag" value="danger">
                         </label>
                     </div>
                 </div>
@@ -107,6 +101,42 @@
             <div class="col-12 col-md-8 order-md-1">
                 <legend>Notes</legend>
                 <input type="text" class="form-control note-search" v-model="searchString" placeholder="Search for titles">
+
+
+                <div class="form-group">
+                    <label class="form-check-label">
+                        Filter by tag:
+                    </label>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success">
+                            <input type="radio" v-model="filterTag" value="success">
+                        </label>
+
+                        <label class="btn btn-primary">
+                            <input type="radio" v-model="filterTag" value="primary">
+                        </label>
+
+                        <label class="btn btn-info">
+                            <input type="radio" v-model="filterTag" value="info">
+                        </label>
+
+                        <label class="btn btn-default">
+                            <input type="radio" v-model="filterTag" value="default">
+                        </label>
+
+                        <label class="btn btn-warning">
+                            <input type="radio" v-model="filterTag" value="warning">
+                        </label>
+
+                        <label class="btn btn-danger">
+                            <input type="radio" v-model="filterTag" value="danger">
+                        </label>
+                        <label class="btn btn-none">
+                            <input type="radio" v-model="filterTag" value="">
+                        </label>
+                    </div>
+                </div>
+
                 <p class="no-results" v-if="noResults">No notes</p>
                 <div v-for="(note, i) in filteredNotes">
                     <div class="row note" v-bind:class="[note.tag, {done : note.done}]">

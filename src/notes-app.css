@@ -7,7 +7,11 @@ body {
 }
 
 .btn-default {
-    background-color: #cccccc;
+    background-color: #ef8605;
+}
+
+.btn-none {
+    background-color: #ffffff;
 }
 
 .vue-logo {

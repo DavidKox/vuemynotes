@@ -18,6 +18,7 @@ var app = new Vue({
             done: false
         }],
         searchString: '',
+        filterTag: '',
     },
     methods: {
         addNote(e) {
@@ -95,10 +96,16 @@ var app = new Vue({
         filteredNotes() {
             let result = this.notes.filter(note => {
                 let match
-                if (note.title !== undefined ) {
-                    match = note.title.toLowerCase().match(this.searchString.toLowerCase())
-                }
+                if (note.title !== undefined) {
 
+                    // search by title
+                    match = note.title.toLowerCase().match(this.searchString.toLowerCase())
+
+                    // filter by tag
+                    if (this.filterTag !== '' && note.tag && note.tag !== '') {
+                        return match && this.filterTag === note.tag
+                    }
+                }
                 return match
             })
 
