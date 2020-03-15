@@ -20,6 +20,19 @@ body {
     margin-right: 4px;
 }
 
+.note-form {
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    border-bottom: solid 2px #ccc;
+}
+
+@media (min-width: 768px) {
+    .note-form {
+        border-bottom: none;
+    }
+}
+
+
 .note-search {
     margin-bottom: 20px;
 }
