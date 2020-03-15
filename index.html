@@ -106,7 +106,9 @@
 
             <div class="col-12 col-md-8 order-md-1">
                 <legend>Notes</legend>
-                <div v-for="(note, i) in notes">
+                <input type="text" class="form-control note-search" v-model="searchString" placeholder="Search for titles">
+                <p class="no-results" v-if="noResults">No notes</p>
+                <div v-for="(note, i) in filteredNotes">
                     <div class="row note" v-bind:class="[note.tag, {done : note.done}]">
                         <div class="col-12 note-heading">
                             <h2>{{note.title}}</h2>

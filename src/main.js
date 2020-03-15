@@ -16,7 +16,8 @@ var app = new Vue({
         details: [{
             text: '',
             done: false
-        }]
+        }],
+        searchString: '',
     },
     methods: {
         addNote(e) {
@@ -85,6 +86,24 @@ var app = new Vue({
             },
             deep: true,
         },
+    },
+    computed: {
+        noResults() {
+            return this.filteredNotes.length === 0
+        },
+
+        filteredNotes() {
+            let result = this.notes.filter(note => {
+                let match
+                if (note.title !== undefined ) {
+                    match = note.title.toLowerCase().match(this.searchString.toLowerCase())
+                }
+
+                return match
+            })
+
+            return result
+        }
     }
 });
 
